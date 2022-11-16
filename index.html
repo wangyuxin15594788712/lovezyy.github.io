@@ -38,9 +38,110 @@
   <body>
     <!-- 樱花 -->
     <div id="jsi-cherry-container" class="container">
-     <audio preload autoplay loop id="music">
-     <source src="http://music.163.com/song/media/outer/url?id=526464145.mp3" type="audio/mpeg">
-     </audio>
+<style>
+        /*模态框的样式*/
+        .modal {
+            position: fixed;
+            font-family: Arial, Helvetica, sans-serif;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            background:rgba(0,0,0,0.8);
+            z-index:99999;
+            opacity:1;
+            -webkit-transition: opacity 400ms ease-in;
+            -moz-transition: opacity 400ms ease-in;
+            transition: opacity 400ms ease-in;
+            pointer-events: auto;
+        }
+        .none{
+            opacity: 0;
+            pointer-events: none;
+        }
+        .modal > div {
+            width:400px;
+            position: relative;
+            margin:10% auto;
+            padding:5px 20px 13px 20px;
+            border-radius:10px;
+            background:#fff;
+            background: -moz-linear-gradient(#fff, #999);
+            background: -webkit-linear-gradient(#fff, #999);
+            background: -o-linear-gradient(#fff, #999);
+        }
+        .yes,.no {
+            background:#606061;
+            color:#FFFFFF;
+            line-height:25px;
+            position: absolute;
+            right: -12px;
+            text-align: center;
+            top: -10px;
+            width:24px;
+            text-decoration: none;
+            font-weight: bold;
+            -webkit-border-radius:12px;
+            -moz-border-radius:12px;
+            border-radius:12px;
+            -moz-box-shadow:1px 1px 3px #000;
+            -webkit-box-shadow:1px 1px 3px #000;
+            box-shadow:1px 1px 3px #000;
+        }
+        .no{
+            right: 24px;
+        }
+        .yes:hover, .no:hover{ background:#00d9ff;}
+    </style>
+ 
+    <script>
+        window.onload=function () {
+            let oA=document.querySelector("#a1");
+ 
+            let oModal=document.querySelector("#modal");
+            let oYes=document.querySelector("#yes");
+            let oNo=document.querySelector("#no");
+ 
+            let userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+ 
+            //chrome下的判断
+            if (userAgent.indexOf("Chrome") > -1){//判断是否是Chrome浏览器
+                //alert("我是 Chrome");
+                oModal.className="modal";
+                oYes.onclick=function () {//选择是
+                    oModal.className="none";//隐藏模态框
+                    let timer=null;
+                    function autoPlay() {//自动播放函数
+                        if (oA.paused) { //判读是否暂停
+                            oA.paused=false;
+                            oA.volume=0.1;
+                            oA.play();
+                        }else {
+                            clearInterval(timer);
+                        }
+                    }
+                    timer=setInterval(autoPlay,1);//执行自动播放
+                };
+                oNo.onclick=function () {//选择否
+                    oModal.className="none";//隐藏模态框，无自动播放
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+<!--音频-->
+<audio id="a1" controls="controls" autoplay="autoplay" src="resource/johann_sebastian_bach_air.mp3"></audio>
+ 
+<!--模态框-->
+<div id="modal" class="none">
+    <div>
+        <a id="yes" href="#" title="YES" class="yes">是</a>
+        <a id="no" href="#" title="NO" class="no">否</a>
+        <h2>提示信息：</h2>
+        <p>是否允许本页中的音/视频自动播放？</p>
+    </div>
+</div>
       <img class="img" src="./123.png" alt="" />
       <!-- 爱心 -->
       <canvas id="pinkboard" class="container"> </canvas>
